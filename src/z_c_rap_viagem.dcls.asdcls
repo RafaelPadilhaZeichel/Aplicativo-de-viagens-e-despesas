@@ -1,0 +1,8 @@
+@EndUserText.label: 'Herança de Controle de Acesso'
+@MappingRole: true
+define role Z_C_RAP_VIAGEM {
+    grant 
+        select 
+            on Z_C_RAP_VIAGEM
+                where inheriting conditions from entity Z_I_RAP_VIAGEM;
+}

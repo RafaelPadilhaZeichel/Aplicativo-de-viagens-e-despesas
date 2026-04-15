@@ -1,0 +1,92 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+  typeName: 'Viagem',
+  typeNamePlural: 'Viagens',
+  title: { type: #STANDARD, value: 'descricao' }
+}
+
+annotate view Z_C_RAP_VIAGEM with
+{
+  @UI.facet: [
+    // 1. ALTERADO: De #CHART_REFERENCE para #DATAPOINT_REFERENCE
+    { id:               'ProgressFacet',
+      purpose:          #HEADER,
+      type:             #DATAPOINT_REFERENCE, 
+      targetElement:    'valor_total', // Aponta para o campo que tem o DataPoint
+      position:         10 },
+
+    { id:            'Viagem',
+      purpose:       #STANDARD,
+      type:          #IDENTIFICATION_REFERENCE,
+      label:         'Detalhes da Viagem',
+      position:      10 },
+
+    { id:              'Admin',
+      purpose:         #STANDARD,
+      type:            #FIELDGROUP_REFERENCE,
+      label:           'Dados Administrativos',
+      targetQualifier: 'AdminData',
+      position:        20 },
+
+    { id:            'Itens',
+      purpose:       #STANDARD,
+      type:          #LINEITEM_REFERENCE,
+      label:         'Despesas da Viagem',
+      position:      30,
+      targetElement: '_Itens' }
+  ]
+
+  @UI.hidden: true
+  viagem_uuid;
+
+  @UI.hidden: true
+  criticidade;
+
+  @UI.lineItem: [ { position: 10, label: 'ID da Viagem' } ]
+  @UI.identification: [ { position: 10, label: 'ID da Viagem' } ]
+  viagem_id;
+
+  @UI.lineItem: [ { position: 20, label: 'Descrição' } ]
+  @UI.identification: [ { position: 20, label: 'Descrição' } ]
+  descricao;
+
+  @UI.lineItem: [ { position: 30, label: 'Status', criticality: 'criticidade', criticalityRepresentation: #WITH_ICON },
+                  { type: #FOR_ACTION, dataAction: 'aprovarViagem', label: 'Aprovar', position: 10 },
+                  { type: #FOR_ACTION, dataAction: 'rejeitarViagem', label: 'Rejeitar', position: 20 },
+                  { type: #FOR_ACTION, dataAction: 'copiarViagem', label: 'Copiar', position: 30 } ]
+  @UI.identification: [ { position: 30, label: 'Status', criticality: 'criticidade', criticalityRepresentation: #WITH_ICON } ]
+  status_aprovacao;
+
+  @UI.lineItem: [ { position: 40, label: 'Valor Total' } ]
+  @UI.identification: [ { position: 40, label: 'Valor Total' },
+                        { type: #FOR_ACTION, dataAction: 'recalcularTotal', label: 'Recalcular Total' } ]
+
+  // 2. CONFIGURAÇÃO CONFORME DOC SAP: Progress Indicator
+  @UI.dataPoint: { 
+    title: 'Consumo do Orçamento',
+    targetValueElement: 'orcamento_maximo', // O valor total (ex: 5000)
+    visualization: #PROGRESS,               // <-- Muda de gráfico para Barra de Progresso
+    criticalityCalculation: {
+      improvementDirection: #MINIMIZE,
+      toleranceRangeHighValue: 3500,
+      deviationRangeHighValue: 4500
+    }
+  }
+  valor_total;
+
+  @UI.identification: [ { position: 45, label: 'Moeda' } ]
+  moeda;
+
+  @UI.fieldGroup: [{ qualifier: 'AdminData', position: 10, label: 'Criado Por' }]
+  created_by;
+  @UI.fieldGroup: [{ qualifier: 'AdminData', position: 20, label: 'Criado Em' }]
+  created_at;
+  @UI.fieldGroup: [{ qualifier: 'AdminData', position: 30, label: 'Modificado Por' }]
+  last_changed_by;
+  @UI.fieldGroup: [{ qualifier: 'AdminData', position: 40, label: 'Modificado Em' }]
+  last_changed_at;
+
+  @UI.hidden: true
+  local_last_changed_at;
+}

@@ -1,0 +1,45 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: { typeName: 'Despesa',
+                typeNamePlural: 'Despesas',
+                title: { type: #STANDARD, value: 'tipo_despesa' } }
+}
+annotate view Z_C_RAP_ITEM_VIAGEM with
+{
+  @UI.facet: [ { id: 'Item', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE, label: 'Detalhes da Despesa', position: 10 } ]
+
+  @UI.hidden: true
+  item_uuid;
+
+  @UI.hidden: true
+  viagem_uuid;
+
+  @UI: { lineItem:       [ { position: 10, label: 'Item' } ],
+         identification: [ { position: 10, label: 'Item' } ] }
+  item_id;
+
+  @UI: { lineItem:       [ { position: 20, label: 'Tipo de Despesa' } ],
+         identification: [ { position: 20, label: 'Tipo de Despesa' } ] }
+  tipo_despesa;
+
+  @UI: { lineItem:       [ { position: 30, label: 'Valor' } ],
+         identification: [ { position: 30, label: 'Valor' } ] }
+  valor;
+
+  // === (NOTA FISCAL) ===
+  @UI: { lineItem:       [ { position: 40, label: 'Nota Fiscal' } ],
+         identification: [ { position: 40, label: 'Nota Fiscal' } ] }
+  attachment;
+
+  @UI.hidden: true
+  mimetype;
+
+  @UI.hidden: true
+  filename;
+
+  @UI.hidden: true
+  local_last_changed_at;
+
+  @UI.hidden: true
+  moeda;
+}

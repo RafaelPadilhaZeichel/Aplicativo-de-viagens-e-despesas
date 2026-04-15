@@ -1,0 +1,9 @@
+@EndUserText.label: 'Controle de Acesso por Usuário'
+@MappingRole: true
+define role Z_I_RAP_VIAGEM {
+    grant
+        select
+            on Z_I_RAP_VIAGEM
+                where
+                    created_by = $session.user;
+}

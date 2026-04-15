@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service Definition para Viagens'
+define service Z_SD_RAP_VIAGEM {
+  expose Z_C_RAP_VIAGEM      as Viagem;
+  expose Z_C_RAP_ITEM_VIAGEM as ItemViagem;
+}
